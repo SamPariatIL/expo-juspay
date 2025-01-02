@@ -10,6 +10,7 @@ import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import "react-native-reanimated";
 import HyperSdkReact from "hyper-sdk-react";
+import uuid from "react-native-uuid";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 
@@ -24,6 +25,19 @@ export default function RootLayout() {
 
   useEffect(() => {
     HyperSdkReact.createHyperServices();
+
+    const initiatePayload = {
+      requestId: uuid.v4(),
+      service: "in.juspay.hyperpay",
+      payload: {
+        action: "initiate",
+        merchantId: "supertails",
+        clientId: "supertails",
+        environment: "production",
+      },
+    };
+
+    HyperSdkReact.initiate(JSON.stringify(initiatePayload));
   }, []);
 
   useEffect(() => {
